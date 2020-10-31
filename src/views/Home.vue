@@ -3,14 +3,19 @@
     <div class="topbar">
       <div class="page-title">Pokemon list</div>
     </div>
-    <div class="owned">
-      <router-link to="/mine">My pokemon list</router-link>
-    </div>
-    <div class="pokemon-list" v-if="pokemons.length > 0">
-      <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.name">
-        <div class="pokemon-name">{{ pokemon.name }}</div>
-        <div class="detail">
-          <router-link :to="`/pokemon/${pokemon.id}`">detail</router-link>
+    <div class="body-content">
+      <div class="owned">
+        <div><strong>Owned</strong></div>
+        <div>
+          <router-link to="/owned"><strong>10 pokemons</strong></router-link>
+        </div>
+      </div>
+      <div class="pokemon-list-container" v-if="pokemons.length > 0">
+        <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.name">
+          <div class="pokemon-name">{{ pokemon.name }}</div>
+          <div class="show-button">
+            <router-link :to="`/pokemon/${pokemon.id}`">show</router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -56,3 +61,26 @@ export default {
   }
 }
 </script>
+
+<style>
+.owned {
+  padding: 15px;
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.pokemon {
+  padding: 15px 10px;
+  background-color: white;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.pokemon:last-child {
+  margin-bottom: 0;
+}
+.pokemon:hover {
+  background-color: #f5f5f5;
+}
+</style>

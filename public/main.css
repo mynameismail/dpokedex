@@ -1,0 +1,15 @@
+.main {
+  min-height: 100vh;
+  background-color: lightgrey;
+}
+.topbar {
+  padding: 15px 10px;
+  background-color: darkred;
+}
+.page-title {
+  font-weight: 700;
+  color: white;
+}
+.body-content {
+  padding: 10px;
+}

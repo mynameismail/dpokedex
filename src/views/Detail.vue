@@ -1,12 +1,33 @@
 <template>
   <div class="detail">
-    <div class="pokemon" v-if="pokemon">
-      <div class="pokemon-picture">
-        <img :src="pokemon.picture" :alt="pokemon.name">
+    <div class="topbar">
+      <div class="page-title">Detail</div>
+    </div>
+    <div class="body-content">
+      <div class="pokemon-detail-container" v-if="pokemon">
+        <div class="top-detail">
+          <div class="pokemon-picture">
+            <img :src="pokemon.picture" :alt="pokemon.name">
+          </div>
+          <div class="pokemon-attribute">
+            <div class="pokemon-name">
+              <strong>{{ pokemon.name }}</strong>
+            </div>
+            <div class="pokemon-types">
+              <span>Types:</span>
+              <div class="tags">
+                <span class="tag" v-for="(type, idx) in pokemon.types" :key="`type-${idx}`">{{ type.type.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pokemon-moves">
+          <span>Moves:</span>
+          <div class="tags">
+            <span class="tag" v-for="(move, idx) in pokemon.moves" :key="`move-${idx}`">{{ move.move.name }}</span>
+          </div>
+        </div>
       </div>
-      <div class="pokemon-name">{{ pokemon.name }}</div>
-      <div class="pokemon-types">Types</div>
-      <div class="pokemon-moves">Moves</div>
     </div>
   </div>
 </template>
@@ -42,3 +63,13 @@ export default {
   }
 }
 </script>
+
+<style>
+.pokemon-detail-container {
+  padding: 20px;
+  background-color: white;
+}
+.top-detail {
+  display: flex;
+}
+</style>
