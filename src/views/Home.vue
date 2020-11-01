@@ -4,14 +4,14 @@
       <div class="page-title">Pokemon list</div>
     </div>
     <div class="body-content">
-      <div class="owned">
-        <div><strong>Owned</strong></div>
+      <div class="dex-bar">
+        <div><strong>My dex</strong></div>
         <div>
-          <router-link to="/owned"><strong>10 pokemons</strong></router-link>
+          <router-link to="/dex"><strong>10 pokemons</strong></router-link>
         </div>
       </div>
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
-        <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.name">
+        <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id">
           <div class="pokemon-name">{{ pokemon.name }}</div>
           <div class="show-button">
             <router-link :to="`/pokemon/${pokemon.id}`">show</router-link>
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style>
-.owned {
+.dex-bar {
   padding: 15px;
   background-color: white;
   margin-bottom: 10px;

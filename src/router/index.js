@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Detail from '../views/Detail.vue'
-import Owned from '../views/Owned.vue'
+import Dex from '../views/Dex.vue'
 
 Vue.use(VueRouter)
 
@@ -18,9 +18,9 @@ const routes = [
     component: Detail
   },
   {
-    path: '/owned',
-    name: 'Owned',
-    component: Owned
+    path: '/dex',
+    name: 'Dex',
+    component: Dex
   }
 ]
 
