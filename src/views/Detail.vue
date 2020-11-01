@@ -21,6 +21,10 @@
             </div>
           </div>
         </div>
+        <div class="actions">
+          <button class="button is-small is-link is-fullwidth" @click="catchPokemon">Catch</button>
+        </div>
+        <div class="toast" :class="toastType">{{ toast }}</div>
         <div class="pokemon-moves">
           <span>Moves:</span>
           <div class="tags">
@@ -28,6 +32,23 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="modal" :class="modalState ? 'is-active' : ''">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <form @submit="savePokemon">
+            <div class="field">
+              <label class="label">Nickname</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Nickname" v-model="nickname">
+              </div>
+            </div>
+            <button type="submit" class="button is-link is-fullwidth">Save</button>
+          </form>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" @click="modalState = false"></button>
     </div>
   </div>
 </template>
@@ -37,14 +58,19 @@ export default {
   name: 'Detail',
   data() {
     return {
-      pokemon: null
+      pokemonId: this.$route.params.id,
+      pokemon: null,
+      modalState: false,
+      nickname: '',
+      helptext: '',
+      toast: '',
+      toastType: 'success'
     }
   },
   methods: {
     async fetchPokemon() {
       try {
-        let url = `https://pokeapi.co/api/v2/pokemon/${this.$route.params.id}/`
-        console.log(url)
+        let url = `https://pokeapi.co/api/v2/pokemon/${this.pokemonId}/`
         let response = await fetch(url)
         let resjson = await response.json()
         this.pokemon = {
@@ -56,6 +82,36 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    catchPokemon() {
+      // set success probability 50%
+      let success = Math.round(Math.random())
+      if (success == 1) {
+        this.modalState = true
+      } else {
+        this.toast = `Sorry! You're out of luck. Try again.`
+        this.toastType = 'error'
+      }
+    },
+    savePokemon(e) {
+      e.preventDefault()
+      let name = this.pokemon.name
+      if (this.nickname) {
+        name = this.nickname
+      }
+      let newPokemon = {
+        'id': this.pokemonId,
+        'name': name
+      }
+
+      let dex = JSON.parse(localStorage.getItem('pokedex')) || []
+      dex.push(newPokemon)
+      let strdex = JSON.stringify(dex)
+      localStorage.setItem('pokedex', strdex)
+      
+      this.modalState = false
+      this.toast = `Pokemon is catched.`
+      this.toastType = 'success'
     }
   },
   mounted() {
@@ -65,11 +121,24 @@ export default {
 </script>
 
 <style>
+.toast {
+  margin: 5px 0;
+}
+.toast.success {
+  color: green;
+}
+.toast.error {
+  color: red;
+}
 .pokemon-detail-container {
   padding: 20px;
   background-color: white;
 }
 .top-detail {
   display: flex;
+  margin-bottom: 10px;
+}
+.actions {
+  margin-bottom: 10px;
 }
 </style>
