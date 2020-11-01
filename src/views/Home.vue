@@ -11,11 +11,9 @@
         </div>
       </div>
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
-        <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id">
+        <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id" @click="$router.push(`/pokemon/${pokemon.id}`)">
           <div class="pokemon-name">{{ pokemon.name }}</div>
-          <div class="show-button">
-            <router-link :to="`/pokemon/${pokemon.id}`">show</router-link>
-          </div>
+          <div><span class="arrow-right"></span></div>
         </div>
       </div>
     </div>
@@ -75,6 +73,7 @@ export default {
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
 }
 .pokemon:last-child {
@@ -82,5 +81,13 @@ export default {
 }
 .pokemon:hover {
   background-color: #f5f5f5;
+}
+.arrow-right {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
 }
 </style>
