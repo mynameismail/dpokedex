@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="actions">
-          <button class="button is-small is-link is-fullwidth" @click="catchPokemon">Catch</button>
+          <button class="button is-small is-fullwidth" :class="isCatched ? '' : 'is-link'" @click="catchPokemon" :disabled="isCatched">{{ isCatched ? 'Already catched' : 'Catch' }}</button>
         </div>
         <div class="toast" :class="toastType">{{ toast }}</div>
         <div class="pokemon-moves">
@@ -64,7 +64,14 @@ export default {
       nickname: '',
       helptext: '',
       toast: '',
-      toastType: 'success'
+      toastType: 'success',
+    }
+  },
+  computed: {
+    isCatched() {
+      let dex = JSON.parse(localStorage.getItem('pokedex')) || []
+      let idx = dex.findIndex(d => d.id == this.pokemonId)
+      return idx >= 0
     }
   },
   methods: {
@@ -93,8 +100,8 @@ export default {
         this.toastType = 'error'
       }
     },
-    savePokemon(e) {
-      e.preventDefault()
+    savePokemon() {
+      event.preventDefault()
       let name = this.pokemon.name
       if (this.nickname) {
         name = this.nickname
