@@ -47,21 +47,6 @@ export default {
   margin-bottom: 10px;
   border-radius: 10px;
 }
-.pokemon {
-  padding: 15px 10px;
-  background-color: white;
-  margin-bottom: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-.pokemon:last-child {
-  margin-bottom: 0;
-}
-.pokemon:hover {
-  background-color: #f5f5f5;
-}
 .arrow-right {
   border: solid black;
   border-width: 0 3px 3px 0;
