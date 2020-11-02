@@ -36,7 +36,7 @@ const router = new VueRouter({
         } else {
           resolve({ x: 0, y: 0 })
         }
-      }, 100)
+      }, 500)
     })
   }
 })
