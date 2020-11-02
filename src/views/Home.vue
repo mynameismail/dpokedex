@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-    <div class="topbar">
-      <div class="page-title">Pokemon list</div>
-    </div>
+    <TopBar title="Pokemon list" />
     <div class="body-content">
       <div class="dex-bar">
         <div><strong>My dex</strong></div>
@@ -21,8 +19,13 @@
 </template>
 
 <script>
+import TopBar from '../components/TopBar.vue'
+
 export default {
   name: 'Home',
+  components: {
+    TopBar
+  },
   data() {
     return {
       pokemons: [],

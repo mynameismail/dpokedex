@@ -1,8 +1,6 @@
 <template>
   <div class="detail">
-    <div class="topbar">
-      <div class="page-title">Detail</div>
-    </div>
+    <TopBar title="Detail" />
     <div class="body-content">
       <div class="pokemon-detail-container" v-if="pokemon">
         <div class="top-detail">
@@ -55,8 +53,13 @@
 </template>
 
 <script>
+import TopBar from '../components/TopBar.vue'
+
 export default {
   name: 'Detail',
+  components: {
+    TopBar
+  },
   data() {
     return {
       pokemonId: this.$route.params.id,

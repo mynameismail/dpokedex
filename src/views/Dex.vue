@@ -1,8 +1,6 @@
 <template>
   <div class="dex">
-    <div class="topbar">
-      <div class="page-title">My pokemon list</div>
-    </div>
+    <TopBar title="My pokemon list" />
     <div class="body-content">
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
         <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id" @click="$router.push(`/pokemon/${pokemon.id}`)">
@@ -17,8 +15,13 @@
 </template>
 
 <script>
+import TopBar from '../components/TopBar.vue'
+
 export default {
   name: 'Dex',
+  components: {
+    TopBar
+  },
   data() {
     return {
       pokemons: []
