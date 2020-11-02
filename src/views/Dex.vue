@@ -3,7 +3,7 @@
     <div class="topbar">
       <div class="page-title">My pokemon list</div>
     </div>
-    <div class="body-content">  
+    <div class="body-content">
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
         <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id" @click="$router.push(`/pokemon/${pokemon.id}`)">
           <div class="pokemon-name">{{ pokemon.name }}</div>
@@ -29,7 +29,12 @@ export default {
       this.pokemons = JSON.parse(localStorage.getItem('pokedex')) || []
     },
     releasePokemon(id) {
-      console.log(id)
+      let idx = this.pokemons.findIndex(poke => poke.id == id)
+      if (idx >= 0) {
+        this.pokemons.splice(idx, 1)
+        let strdex = JSON.stringify(this.pokemons)
+        localStorage.setItem('pokedex', strdex)
+      }
       event.stopPropagation()
     }
   },
