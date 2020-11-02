@@ -3,6 +3,9 @@
     <TopBar title="My pokemon list" />
     <div class="body-content">
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
+        <div class="total-catched">
+          <strong>{{ pokemons.length }} pokemon{{ pokemons.length > 1 ? 's' : '' }}</strong>
+        </div>
         <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id" @click="$router.push(`/pokemon/${pokemon.id}`)">
           <div class="pokemon-name">{{ pokemon.name }}</div>
           <div>
@@ -10,6 +13,7 @@
           </div>
         </div>
       </div>
+      <div class="has-text-centered" v-else>No catched pokemon.</div>
     </div>
   </div>
 </template>
@@ -38,3 +42,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.total-catched {
+  margin-bottom: 10px;
+}
+</style>
