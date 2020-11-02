@@ -7,3 +7,5 @@ Three pages:
 - Pokemon list
 - Pokemon detail
 - My pokemon list
+
+Data source: https://pokeapi.co
