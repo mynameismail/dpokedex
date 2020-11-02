@@ -22,27 +22,19 @@ export default {
   components: {
     TopBar
   },
-  data() {
-    return {
-      pokemons: []
+  computed: {
+    pokemons() {
+      return this.$store.state.dex.pokemons
     }
   },
   methods: {
-    async fetchPokemons() {
-      this.pokemons = JSON.parse(localStorage.getItem('pokedex')) || []
-    },
     releasePokemon(id) {
-      let idx = this.pokemons.findIndex(poke => poke.id == id)
-      if (idx >= 0) {
-        this.pokemons.splice(idx, 1)
-        let strdex = JSON.stringify(this.pokemons)
-        localStorage.setItem('pokedex', strdex)
-      }
+      this.$store.dispatch('dex/releasePokemon', id)
       event.stopPropagation()
     }
   },
   mounted() {
-    this.fetchPokemons()
+    this.$store.dispatch('dex/fetchPokemons')
   }
 }
 </script>

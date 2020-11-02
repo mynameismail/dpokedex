@@ -55,6 +55,8 @@
 <script>
 import TopBar from '../components/TopBar.vue'
 
+var baseApi = 'https://pokeapi.co/api/v2/pokemon'
+
 export default {
   name: 'Detail',
   components: {
@@ -66,16 +68,21 @@ export default {
       pokemon: null,
       modalState: false,
       nickname: '',
-      helptext: '',
       toast: '',
-      toastType: 'success',
-      isCatched: false
+      toastType: 'success'
+    }
+  },
+  computed: {
+    isCatched() {
+      let pokemons = this.$store.state.dex.pokemons
+      let idx = pokemons.findIndex(poke => poke.id == this.pokemonId)
+      return idx >= 0
     }
   },
   methods: {
     async fetchPokemon() {
       try {
-        let url = `https://pokeapi.co/api/v2/pokemon/${this.pokemonId}/`
+        let url = `${baseApi}/${this.pokemonId}/`
         let response = await fetch(url)
         let resjson = await response.json()
         this.pokemon = {
@@ -108,27 +115,15 @@ export default {
         'id': this.pokemonId,
         'name': name
       }
-
-      let dex = JSON.parse(localStorage.getItem('pokedex')) || []
-      dex.push(newPokemon)
-      let strdex = JSON.stringify(dex)
-      localStorage.setItem('pokedex', strdex)
+      this.$store.dispatch('dex/catchPokemon', newPokemon)
       
       this.modalState = false
       this.toast = `Pokemon is catched.`
       this.toastType = 'success'
-
-      this.updateCatchState()
     },
-    updateCatchState() {
-      let dex = JSON.parse(localStorage.getItem('pokedex')) || []
-      let idx = dex.findIndex(d => d.id == this.pokemonId)
-      this.isCatched = idx >= 0
-    }
   },
   mounted() {
     this.fetchPokemon()
-    this.updateCatchState()
   }
 }
 </script>

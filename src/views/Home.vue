@@ -5,7 +5,7 @@
       <div class="dex-bar">
         <div><strong>My dex</strong></div>
         <div>
-          <router-link to="/dex"><strong>10 pokemons</strong></router-link>
+          <router-link to="/dex"><strong>{{ countDex }} pokemon{{ countDex > 0 ? 's' : '' }}</strong></router-link>
         </div>
       </div>
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
@@ -26,39 +26,16 @@ export default {
   components: {
     TopBar
   },
-  data() {
-    return {
-      pokemons: [],
-      nexturl: 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0',
-      prevurl: ''
-    }
-  },
-  methods: {
-    async fetchPokemons() {
-      try {
-        let response = await fetch(this.nexturl)
-        let resjson = await response.json()
-        this.nexturl = resjson['next']
-        this.prevurl = resjson['previous']
-        let results = resjson['results']
-        results.forEach(pokemon => {
-          // remove last slash from pokemon url
-          let pokemonUrl = pokemon['url'].slice(0, -1)
-          // get pokemon id
-          let pokemonId = pokemonUrl.split('/').pop()
-
-          this.pokemons.push({
-            'id': pokemonId,
-            'name': pokemon['name']
-          })
-        })
-      } catch (err) {
-        console.log(err)
-      }
+  computed: {
+    pokemons() {
+      return this.$store.state.home.pokemons
+    },
+    countDex() {
+      return this.$store.state.dex.pokemons.length
     }
   },
   mounted() {
-    this.fetchPokemons()
+    this.$store.dispatch('home/fetchPokemons')
   }
 }
 </script>
