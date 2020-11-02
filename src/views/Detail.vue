@@ -2,19 +2,20 @@
   <div class="detail">
     <TopBar title="Detail" />
     <div class="body-content">
-      <div class="pokemon-detail-container" v-if="pokemon">
+      <div class="error-msg" v-if="errorMsg">{{ errorMsg }}</div>
+      <div class="pokemon-detail-container" v-if="pokemonDetail">
         <div class="top-detail">
           <div class="pokemon-picture">
-            <img :src="pokemon.picture" :alt="pokemon.name">
+            <img :src="pokemonDetail.picture" :alt="pokemonDetail.name">
           </div>
           <div class="pokemon-attribute">
             <div class="pokemon-name">
-              <strong>{{ pokemon.name }}</strong>
+              <strong>{{ pokemonDetail.name }}</strong>
             </div>
             <div class="pokemon-types">
               <span>Types:</span>
               <div class="tags">
-                <span class="tag" v-for="(type, idx) in pokemon.types" :key="`type-${idx}`">{{ type.type.name }}</span>
+                <span class="tag" v-for="(type, idx) in pokemonDetail.types" :key="`type-${idx}`">{{ type.type.name }}</span>
               </div>
             </div>
           </div>
@@ -26,7 +27,7 @@
         <div class="pokemon-moves">
           <span>Moves:</span>
           <div class="tags">
-            <span class="tag" v-for="(move, idx) in pokemon.moves" :key="`move-${idx}`">{{ move.move.name }}</span>
+            <span class="tag" v-for="(move, idx) in pokemonDetail.moves" :key="`move-${idx}`">{{ move.move.name }}</span>
           </div>
         </div>
       </div>
@@ -65,11 +66,12 @@ export default {
   data() {
     return {
       pokemonId: this.$route.params.id,
-      pokemon: null,
+      pokemonDetail: null,
       modalState: false,
       nickname: '',
       toast: '',
-      toastType: 'success'
+      toastType: 'success',
+      errorMsg: ''
     }
   },
   computed: {
@@ -85,14 +87,15 @@ export default {
         let url = `${baseApi}/${this.pokemonId}/`
         let response = await fetch(url)
         let resjson = await response.json()
-        this.pokemon = {
+        this.pokemonDetail = {
           'picture': resjson['sprites']['front_default'],
           'name': resjson['name'],
           'types': resjson['types'],
           'moves': resjson['moves']
         }
+        this.errorMsg = ''
       } catch (err) {
-        console.log(err)
+        this.errorMsg = 'Something error.'
       }
     },
     catchPokemon() {
@@ -107,7 +110,7 @@ export default {
     },
     savePokemon() {
       event.preventDefault()
-      let name = this.pokemon.name
+      let name = this.pokemonDetail.name
       if (this.nickname) {
         name = this.nickname
       }

@@ -5,9 +5,10 @@
       <div class="dex-bar">
         <div><strong>My dex</strong></div>
         <div>
-          <router-link to="/dex"><strong>{{ countDex }} pokemon{{ countDex > 0 ? 's' : '' }}</strong></router-link>
+          <router-link to="/dex"><strong>{{ countDex }} pokemon{{ countDex > 1 ? 's' : '' }}</strong></router-link>
         </div>
       </div>
+      <div class="error-msg" v-if="errorMsg">{{ errorMsg }}</div>
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
         <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id" @click="$router.push(`/pokemon/${pokemon.id}`)">
           <div class="pokemon-name">{{ pokemon.name }}</div>
@@ -26,6 +27,11 @@ export default {
   components: {
     TopBar
   },
+  data() {
+    return {
+      errorMsg: ''
+    }
+  },
   computed: {
     pokemons() {
       return this.$store.state.home.pokemons
@@ -36,6 +42,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('home/fetchPokemons')
+    .then(() => this.errorMsg = '')
+    .catch(err => this.errorMsg = err)
   }
 }
 </script>
