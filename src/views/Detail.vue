@@ -43,6 +43,7 @@
               <div class="control">
                 <input class="input" type="text" placeholder="Nickname" v-model="nickname">
               </div>
+              <p class="help">If blank, it will be the pokemon realname.</p>
             </div>
             <button type="submit" class="button is-link is-fullwidth">Save</button>
           </form>
@@ -65,13 +66,7 @@ export default {
       helptext: '',
       toast: '',
       toastType: 'success',
-    }
-  },
-  computed: {
-    isCatched() {
-      let dex = JSON.parse(localStorage.getItem('pokedex')) || []
-      let idx = dex.findIndex(d => d.id == this.pokemonId)
-      return idx >= 0
+      isCatched: false
     }
   },
   methods: {
@@ -119,10 +114,18 @@ export default {
       this.modalState = false
       this.toast = `Pokemon is catched.`
       this.toastType = 'success'
+
+      this.updateCatchState()
+    },
+    updateCatchState() {
+      let dex = JSON.parse(localStorage.getItem('pokedex')) || []
+      let idx = dex.findIndex(d => d.id == this.pokemonId)
+      this.isCatched = idx >= 0
     }
   },
   mounted() {
     this.fetchPokemon()
+    this.updateCatchState()
   }
 }
 </script>
