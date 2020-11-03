@@ -1,6 +1,6 @@
 <template>
   <div class="dex">
-    <TopBar title="My pokemon list" />
+    <TopBar title="My pokemon list" backbtn />
     <div class="body-content">
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
         <div class="total-catched">

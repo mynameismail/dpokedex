@@ -1,6 +1,6 @@
 <template>
   <div class="detail">
-    <TopBar title="Detail" />
+    <TopBar title="Detail" backbtn />
     <div class="body-content">
       <div class="error-msg" v-if="errorMsg">{{ errorMsg }}</div>
       <div class="pokemon-detail-container" v-if="pokemonDetail">
