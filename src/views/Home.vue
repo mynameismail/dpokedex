@@ -8,6 +8,7 @@
           <router-link to="/dex"><strong>{{ countDex }} pokemon{{ countDex > 1 ? 's' : '' }}</strong></router-link>
         </div>
       </div>
+      <div class="loading" v-if="loading">Loading...</div>
       <div class="error-msg" v-if="errorMsg">{{ errorMsg }}</div>
       <div class="pokemon-list-container" v-if="pokemons.length > 0">
         <div class="pokemon" v-for="pokemon in pokemons" :key="pokemon.id" @click="$router.push(`/pokemon/${pokemon.id}`)">
@@ -29,7 +30,8 @@ export default {
   },
   data() {
     return {
-      errorMsg: ''
+      errorMsg: '',
+      loading: false
     }
   },
   computed: {
@@ -41,9 +43,16 @@ export default {
     }
   },
   mounted() {
+    this.loading = true
     this.$store.dispatch('home/fetchPokemons')
-    .then(() => this.errorMsg = '')
-    .catch(err => this.errorMsg = err)
+    .then(() => {
+      this.errorMsg = ''
+      this.loading = false
+    })
+    .catch(err => {
+      this.errorMsg = err
+      this.loading = false
+    })
   }
 }
 </script>

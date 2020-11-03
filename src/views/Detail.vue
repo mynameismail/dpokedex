@@ -2,6 +2,7 @@
   <div class="detail">
     <TopBar title="Detail" backbtn />
     <div class="body-content">
+      <div class="loading" v-if="loading">Loading...</div>
       <div class="error-msg" v-if="errorMsg">{{ errorMsg }}</div>
       <div class="pokemon-detail-container" v-if="pokemonDetail">
         <div class="top-detail">
@@ -71,7 +72,8 @@ export default {
       nickname: '',
       toast: '',
       toastType: 'success',
-      errorMsg: ''
+      errorMsg: '',
+      loading: false
     }
   },
   computed: {
@@ -84,6 +86,7 @@ export default {
   methods: {
     async fetchPokemon() {
       try {
+        this.loading = true
         let url = `${baseApi}/${this.pokemonId}/`
         let response = await fetch(url)
         let resjson = await response.json()
@@ -94,8 +97,10 @@ export default {
           'moves': resjson['moves']
         }
         this.errorMsg = ''
+        this.loading = false
       } catch (err) {
         this.errorMsg = 'Something error.'
+        this.loading = false
       }
     },
     catchPokemon() {
